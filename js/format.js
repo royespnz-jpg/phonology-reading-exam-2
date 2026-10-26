@@ -100,7 +100,7 @@ export const POINTS_PER_SENTENCE = 2;
 export const TOTAL_POINTS = READINGS.reduce((n, r) => n + r.sentences.length, 0) * POINTS_PER_SENTENCE;
 
 export const INTRO =
-  'This is the second phonology reading test. It has four readings: vowels, consonants, connected speech, and word stress. ' +
+  'This is the second part of the phonology test. It has four readings: vowels, consonants, connected speech, and word stress. ' +
   `This test is worth ${WORTH}% of your grade. Each sentence is worth ${POINTS_PER_SENTENCE} points, and the total is ${TOTAL_POINTS} points. ` +
   'For each reading you will have forty seconds to prepare and fifty seconds to read the sentences aloud. ' +
   'The test runs by itself. Your microphone turns on when it is time to read and turns off when the time is up. You cannot pause or go back.';

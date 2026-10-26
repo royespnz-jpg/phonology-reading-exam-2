@@ -29,7 +29,7 @@ const FIRST_EXAM = [
 test('four readings, each with 40 seconds to prepare and 50 to read', () => {
   const steps = buildTimeline();
   assert.equal(steps[0].type, 'intro');
-  assert.match(steps[0].say, /four readings/);
+  assert.match(steps[0].say, /^This is the second part of the phonology test\. It has four readings/);
   assert.match(steps[0].say, /forty seconds to prepare and fifty seconds to read/);
   // Worth 5% of the grade: 2 points for each of the 40 sentences, 80 in all.
   assert.equal(TOTAL_POINTS, 80);
