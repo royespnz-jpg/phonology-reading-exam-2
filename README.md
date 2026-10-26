@@ -6,7 +6,9 @@ tiempo y pasa a la lectura siguiente. Cada grabación va a tu Google Drive y a u
 
 ## El examen
 
-Cuatro lecturas, cada una con **40 segundos para preparar** y **50 segundos para leer**:
+Cuatro lecturas, cada una con **40 segundos para preparar** y **50 segundos para leer**. Vale el **5 %** de la nota:
+**2 puntos por oración**, **80 puntos** en total (40 oraciones). La introducción del examen se lo dice a los estudiantes.
+
 
 | Lectura | Qué evalúa |
 | --- | --- |

@@ -1,9 +1,9 @@
-import { READINGS, RESPONSES, INTRO, buildTimeline, timedSeconds, directions, PREP, RESPONSE } from './format.js?v=202610261719';
-import { clockHtml, runClock, idleClock, fmt } from './clock.js?v=202610261719';
-import { unlockAudio, beep, speak, stopSpeaking, openMicrophone, closeMicrophone, levelMeter, startRecording } from './audio.js?v=202610261719';
-import { scriptUrl, saveScriptUrl, isScriptUrl, ping, report, enqueue, onUpload, pendingUploads, resumeUploads } from './api.js?v=202610261719';
-import { saveRecording, allRecordings } from './store.js?v=202610261719';
-import { TEACHER_CODE, SCRIPT_VERSION } from './config.js?v=202610261719';
+import { READINGS, RESPONSES, INTRO, buildTimeline, timedSeconds, directions, PREP, RESPONSE, WORTH, POINTS_PER_SENTENCE, TOTAL_POINTS } from './format.js?v=202610261908';
+import { clockHtml, runClock, idleClock, fmt } from './clock.js?v=202610261908';
+import { unlockAudio, beep, speak, stopSpeaking, openMicrophone, closeMicrophone, levelMeter, startRecording } from './audio.js?v=202610261908';
+import { scriptUrl, saveScriptUrl, isScriptUrl, ping, report, enqueue, onUpload, pendingUploads, resumeUploads } from './api.js?v=202610261908';
+import { saveRecording, allRecordings } from './store.js?v=202610261908';
+import { TEACHER_CODE, SCRIPT_VERSION } from './config.js?v=202610261908';
 
 const app = document.getElementById('app');
 const params = new URLSearchParams(location.search);
@@ -60,7 +60,7 @@ function renderStart(error = '') {
       <p class="lede">Four readings of ten sentences each. A clock counts down ${PREP} seconds to prepare; when it reaches zero
         you hear a beep, your microphone turns on, and it records for ${RESPONSE} seconds while you read aloud.
         Pay attention to the words in <b>bold</b>.</p>
-      <p class="po-time">Each reading: ${PREP} s to prepare · ${RESPONSE} s to read.</p>
+      <p class="po-time">Each reading: ${PREP} s to prepare · ${RESPONSE} s to read. Worth ${WORTH}% · ${POINTS_PER_SENTENCE} points per sentence · ${TOTAL_POINTS} points in total.</p>
       <ol class="parts-overview">
         ${READINGS.map((r) => `<li><span class="po-label">Reading ${r.n}</span><span class="po-title">${esc(r.title)}</span></li>`).join('')}
       </ol>

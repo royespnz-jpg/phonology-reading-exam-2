@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { READINGS, RESPONSES, PREP, RESPONSE, buildTimeline, timedSeconds, plain, targets, caps, words } from '../js/format.js';
+import { READINGS, RESPONSES, PREP, RESPONSE, TOTAL_POINTS, buildTimeline, timedSeconds, plain, targets, caps, words } from '../js/format.js';
 import { fmt } from '../js/clock.js';
 import { syllables, syllablesOf } from './syllables.mjs';
 
@@ -31,6 +31,9 @@ test('four readings, each with 40 seconds to prepare and 50 to read', () => {
   assert.equal(steps[0].type, 'intro');
   assert.match(steps[0].say, /four readings/);
   assert.match(steps[0].say, /forty seconds to prepare and fifty seconds to read/);
+  // Worth 5% of the grade: 2 points for each of the 40 sentences, 80 in all.
+  assert.equal(TOTAL_POINTS, 80);
+  assert.match(steps[0].say, /worth 5% of your grade\. Each sentence is worth 2 points, and the total is 80 points\./);
   assert.deepEqual(READINGS.map((r) => r.title), ['Vowels', 'Consonants', 'Connected speech', 'Word stress']);
   assert.deepEqual(READINGS.map((r) => r.kind), ['vowels', 'consonants', 'connected', 'stress']);
   assert.deepEqual(READINGS.map((r) => r.id), READINGS.map((r, i) => `r${i + 1}`));
