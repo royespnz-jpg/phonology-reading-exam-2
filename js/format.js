@@ -61,9 +61,9 @@ export const READINGS = [
     title: 'Connected speech',
     focus: 'how the words join and change together',
     sentences: [
-      { text: '**Would you** like to try the **fish and chips** today?' },
-      { text: '**Don’t you** think we **ought to** call the doctor right now?' },
-      { text: 'We will travel to Spain **this year**, **as usual**.' },
+      { text: 'We ordered **fish and chips** **because** we were very hungry.' },
+      { text: 'I **suppose** we **ought to** call the doctor right now.' },
+      { text: 'Tell me **about** your **family** and your new job.' },
       { text: 'Please **put it** on the table and **tell them** to wait.' },
       { text: '**Give him** **something** cold to drink after the game.' },
       { text: 'The answer is **written** in the **center** of the page.' },

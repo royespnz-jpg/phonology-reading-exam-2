@@ -48,7 +48,7 @@ test('four readings, each with 40 seconds to prepare and 50 to read', () => {
   assert.equal(steps[r3 + 1].say, 'Begin preparing now.');
   assert.equal(steps[r3 + 2].say, 'Begin reading aloud now.');
   // The sheet keeps the sentences, numbered, with the targets in capitals.
-  assert.match(steps[r3 + 2].prompt, /^1\. WOULD YOU like to try the FISH AND CHIPS today\? 2\. /);
+  assert.match(steps[r3 + 2].prompt, /^1\. We ordered FISH AND CHIPS BECAUSE we were very hungry\. 2\. /);
 });
 
 test('the quick demo shortens every clock but keeps at least 3 seconds', () => {
