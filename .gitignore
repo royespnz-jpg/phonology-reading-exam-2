@@ -1,0 +1,5 @@
+node_modules
+
+# What each target tests: private, only in the teacher's Apps Script.
+key/
+google-apps-script/private/
