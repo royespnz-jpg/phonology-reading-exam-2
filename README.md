@@ -14,7 +14,7 @@ Cuatro lecturas, cada una con **40 segundos para preparar** y **50 segundos para
 | --- | --- |
 | 1 · Vowels | **Minimal pairs** de vocales, entre los contrastes más difíciles para hispanohablantes |
 | 2 · Consonants | **Minimal pairs** de consonantes, entre los contrastes más difíciles para hispanohablantes |
-| 3 · Connected speech | 20 ajustes de connected speech, de los más difíciles |
+| 3 · Connected speech | Solo linking: los 5 tipos, 4 veces cada uno (cada oración combina dos tipos distintos) |
 | 4 · Word stress | 20 palabras que se escriben igual como sustantivo, verbo o adjetivo pero cambian el acento. El estudiante solo ve la palabra en negrita: la oración le dice cuál es |
 
 - **10 oraciones por lectura**, numeradas y sueltas. Cada oración tiene exactamente **dos targets en negrita**; en la
