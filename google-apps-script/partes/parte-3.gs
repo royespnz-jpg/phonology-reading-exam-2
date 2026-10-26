@@ -2,6 +2,12 @@
 
 /* ─── requests ─── */
 
+/* What each target tests, for the Teacher page: only with the teacher's key. */
+function readings_(d) {
+  if (!TEACHER_KEY || String(d.key || '').trim() !== TEACHER_KEY) throw new Error('La clave del docente no es correcta.');
+  return { ok: true, rows: readingRows_() };
+}
+
 function start_(d) {
   const who = person_(d);
   const sheet = sheet_('exams');

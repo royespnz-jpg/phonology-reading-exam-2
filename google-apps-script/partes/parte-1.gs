@@ -20,7 +20,7 @@
  */
 
 const APP = 'Phonology Reading Exam II';
-const VERSION = 1;
+const VERSION = 2;
 const ROOT_FOLDER = 'Phonology Reading Exam II — Recordings';
 /* The readings: id, title and kind. Made from js/format.js: npm run gs. */
 const READINGS_META = [

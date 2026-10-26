@@ -3,6 +3,10 @@
 /* readings:start */
 /* The readings, as the page shows them (the words in CAPITALS are the targets),
    and what each target tests. Made from js/format.js: npm run gs. */
+/* The key the teacher types on the Teacher page to see what each target tests
+   (empty: nobody can). Only the teacher’s own copy has it. */
+const TEACHER_KEY = "";
+
 const READINGS_ROWS_1 = [
   [1,1,"The SHEEP were taken to the island by SHIP last week.","sheep, ship",""],
   [1,2,"Our CAT CAUGHT a little mouse in the garden yesterday.","cat, caught",""],
@@ -78,6 +82,7 @@ function doPost(e) {
     if (data.type === 'start') return json_(withLock_(function () { return start_(data); }));
     if (data.type === 'recording') return json_(recording_(data));
     if (data.type === 'finish') return json_(withLock_(function () { return finish_(data); }));
+    if (data.type === 'readings') return json_(readings_(data));
     throw new Error('Pedido desconocido: ' + String(data.type));
   } catch (err) {
     return json_({ ok: false, error: err.message });

@@ -470,6 +470,17 @@ audio {
   padding-left: 0.3em;
   margin: 0;
 }
+.reading .rule {
+  display: block;
+  margin: -0.1em 0 0.5em;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.rules-form {
+  margin: 0 0 1rem;
+}
 .reading.sentences li::marker {
   font-family: var(--f-mono);
   font-size: 0.75em;

@@ -1,8 +1,8 @@
 // Talks to the teacher's Google Apps Script (google-apps-script/Code.gs).
 // A text/plain POST avoids a CORS preflight; the script answers with JSON.
 
-import { SCRIPT_URL, RETIRED_URLS } from './config.js?v=202610261911';
-import { allRecordings, saveRecording } from './store.js?v=202610261911';
+import { SCRIPT_URL, RETIRED_URLS } from './config.js?v=202610261916';
+import { allRecordings, saveRecording } from './store.js?v=202610261916';
 
 const URL_RE = /^https:\/\/script\.google\.com\/(?:a\/[^/\s]+\/)?macros\/s\/[\w-]+\/(?:exec|dev)$/;
 const KEY = 'phon2.script';
@@ -56,6 +56,14 @@ export async function post(payload, url = scriptUrl()) {
     redirect: 'follow',
   });
   return readJson(res);
+}
+
+// What each target tests: the teacher's script gives it only with the
+// teacher's key, so it is never in this public page.
+export async function fetchRules(key, url = scriptUrl()) {
+  const data = await post({ type: 'readings', key }, url);
+  if (!Array.isArray(data.rows)) throw new Error('Your script is an older version: paste the new parts and deploy a new version.');
+  return data.rows;
 }
 
 // Events the teacher's sheet keeps (start / finish); a failure doesn't stop the exam.

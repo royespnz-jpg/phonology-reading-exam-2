@@ -26,9 +26,11 @@ Cuatro lecturas, cada una con **40 segundos para preparar** y **50 segundos para
 - **Cabe en los 50 segundos**: cada lectura tiene unas 120–130 sílabas, unos 40 segundos a ritmo parejo de estudiante,
   así queda tiempo de sobra.
 - **Las oraciones aparecen** recién cuando empieza el tiempo de preparación (“Begin preparing now”).
-- **Qué evalúa cada target no está en la página ni en este repositorio** (que es público): solo en la planilla del
-  docente, en la hoja *Readings*. Sale de un archivo privado (`key/`, fuera del repositorio) que arma la copia del
-  script que pega el docente.
+- **Qué evalúa cada target no está en la página ni en este repositorio** (que es público): solo en la copia del script
+  que pega el docente (hoja *Readings* de la planilla). Sale de un archivo privado (`key/`, fuera del repositorio).
+- **En la página Teacher** el docente escribe su **clave** (`TEACHER_KEY`, en la parte 2 de su copia del script) y la
+  página le pide al script qué evalúa cada target, que aparece debajo de cada oración. Sin esa clave el script no lo
+  da, y la clave tampoco está en este repositorio. *Lock and leave* lo vuelve a ocultar.
 
 Las consignas se oyen (voz del navegador) y se leen en pantalla. Son unos 8 minutos (6 de relojes).
 

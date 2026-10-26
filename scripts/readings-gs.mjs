@@ -34,7 +34,7 @@ export function readingRows(key = null) {
 // The rows go in blocks of four readings, each in its own part of the script,
 // so that every part stays short enough to paste.
 const PER_BLOCK = 4;
-export function rowsBlock(key = null) {
+export function rowsBlock(key = null, teacherKey = '') {
   const rows = readingRows(key);
   const blocks = [];
   for (let n = 0; n * PER_BLOCK < READINGS.length; n++) {
@@ -47,6 +47,10 @@ export function rowsBlock(key = null) {
     '/* readings:start */',
     '/* The readings, as the page shows them (the words in CAPITALS are the targets),',
     '   and what each target tests. Made from js/format.js: npm run gs. */',
+    '/* The key the teacher types on the Teacher page to see what each target tests',
+    '   (empty: nobody can). Only the teacher’s own copy has it. */',
+    `const TEACHER_KEY = ${JSON.stringify(teacherKey)};`,
+    '',
     blocks.join('\n\n/* ✂ */\n\n'),
     '',
     `function readingRows_() {\n  return [].concat(${blocks.map((_, n) => `READINGS_ROWS_${n + 1}`).join(', ')});\n}`,
@@ -65,13 +69,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const code = readFileSync(SRC, 'utf8');
   if (!ROWS_RE.test(code)) throw new Error('the readings block (readings:start … readings:end) is not in Code.gs');
   if (!META_RE.test(code)) throw new Error('READINGS_META not found in Code.gs');
-  const build = (key) => code.replace(ROWS_RE, rowsBlock(key)).replace(META_RE, metaBlock());
+  const build = (key, teacherKey) => code.replace(ROWS_RE, rowsBlock(key, teacherKey)).replace(META_RE, metaBlock());
   writeFileSync(SRC, build(null));
   console.log(`Code.gs: ${readingRows().length} sentences (public: without what each target tests)`);
   if (existsSync(KEY_FILE)) {
-    const { KEY } = await import(pathToFileURL(KEY_FILE).href);
+    const { KEY, TEACHER_KEY } = await import(pathToFileURL(KEY_FILE).href);
     mkdirSync(PRIVATE, { recursive: true });
-    writeFileSync(join(PRIVATE, 'Code.gs'), build(KEY));
+    writeFileSync(join(PRIVATE, 'Code.gs'), build(KEY, TEACHER_KEY));
     console.log('private/Code.gs: the teacher’s copy, with what each target tests');
   } else {
     console.log('No key/key.mjs here: only the public Code.gs was made.');

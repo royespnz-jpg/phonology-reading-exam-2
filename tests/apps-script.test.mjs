@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import vm from 'node:vm';
 import { splitCode, stripMarkers, MAX_LINES } from '../scripts/split-gs.mjs';
 import { readingRows, metaRows } from '../scripts/readings-gs.mjs';
@@ -10,7 +10,7 @@ const DIR = new URL('../google-apps-script/', import.meta.url);
 const code = readFileSync(new URL('Code.gs', DIR), 'utf8');
 
 // A small stand-in for the Google services the script uses.
-function makeEnv() {
+function makeEnv(src = code) {
   const sheets = new Map();
   const makeSheet = (name) => {
     const data = [];
@@ -90,7 +90,7 @@ function makeEnv() {
     },
   };
   vm.createContext(ctx);
-  vm.runInContext(code, ctx);
+  vm.runInContext(src, ctx);
   const post = (payload) => JSON.parse(ctx.doPost({ postData: { contents: JSON.stringify(payload) } }).body);
   return { ctx, post, sheets, files, folders };
 }
@@ -117,7 +117,7 @@ test('setup makes the sheets, the rubric, the readings and the Drive folder', ()
   assert.ok(folders.has('Phonology Reading Exam II — Recordings'));
   assert.ok(!folders.has('Phonology Reading Exam — Recordings'), 'never the first exam’s folder');
   const info = JSON.parse(ctx.doGet().body);
-  assert.deepEqual(info, { ok: true, app: 'Phonology Reading Exam II', sheet: 'Phonology 2026', version: 1 });
+  assert.deepEqual(info, { ok: true, app: 'Phonology Reading Exam II', sheet: 'Phonology 2026', version: 2 });
   assert.ok(info.version >= SCRIPT_VERSION, 'the page works with this script');
 });
 
@@ -159,6 +159,25 @@ test('an exam: start, four readings in the student’s folder, finish', () => {
   const exam = sheets.get('Exams').data[1];
   assert.deepEqual([exam[1], exam[2], exam[3], exam[4], exam[6], exam[7], exam[10]], ['Ana Pérez', '3B', 'finished', 4, 1, 0, who.attempt]);
   assert.match(sheets.get('Exams').formulas.get('2,9'), /SUMIFS\(Responses!H:H,Responses!J:J,K2\)/);
+});
+
+test('what each target tests: only the teacher’s copy gives it, and only with the key', () => {
+  // The public script has no key: it never gives the explanations.
+  assert.match(code, /^const TEACHER_KEY = "";$/m);
+  const { post } = makeEnv();
+  assert.match(post({ type: 'readings', key: '' }).error, /clave del docente/);
+  assert.match(post({ type: 'readings', key: 'abc123' }).error, /clave del docente/);
+  // The teacher's own copy (not in the repository) gives them with its key.
+  const privateCopy = new URL('private/Code.gs', DIR);
+  if (!existsSync(privateCopy)) return;
+  const priv = readFileSync(privateCopy, 'utf8');
+  const key = priv.match(/^const TEACHER_KEY = "([^"]+)";$/m)[1];
+  const env = makeEnv(priv);
+  assert.match(env.post({ type: 'readings', key: 'wrong' }).error, /clave del docente/);
+  const res = env.post({ type: 'readings', key: ` ${key} ` });
+  assert.equal(res.ok, true);
+  assert.equal(res.rows.length, 40);
+  assert.ok(res.rows.every((row) => row[4] !== ''), 'every sentence says what it tests');
 });
 
 test('a demo is marked as one', () => {

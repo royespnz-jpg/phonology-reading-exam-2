@@ -1,9 +1,9 @@
-import { READINGS, RESPONSES, INTRO, buildTimeline, timedSeconds, directions, PREP, RESPONSE, WORTH, POINTS_PER_SENTENCE, TOTAL_POINTS } from './format.js?v=202610261911';
-import { clockHtml, runClock, idleClock, fmt } from './clock.js?v=202610261911';
-import { unlockAudio, beep, speak, stopSpeaking, openMicrophone, closeMicrophone, levelMeter, startRecording } from './audio.js?v=202610261911';
-import { scriptUrl, saveScriptUrl, isScriptUrl, ping, report, enqueue, onUpload, pendingUploads, resumeUploads } from './api.js?v=202610261911';
-import { saveRecording, allRecordings } from './store.js?v=202610261911';
-import { TEACHER_CODE, SCRIPT_VERSION } from './config.js?v=202610261911';
+import { READINGS, RESPONSES, INTRO, buildTimeline, timedSeconds, directions, PREP, RESPONSE, WORTH, POINTS_PER_SENTENCE, TOTAL_POINTS } from './format.js?v=202610261916';
+import { clockHtml, runClock, idleClock, fmt } from './clock.js?v=202610261916';
+import { unlockAudio, beep, speak, stopSpeaking, openMicrophone, closeMicrophone, levelMeter, startRecording } from './audio.js?v=202610261916';
+import { scriptUrl, saveScriptUrl, isScriptUrl, ping, fetchRules, report, enqueue, onUpload, pendingUploads, resumeUploads } from './api.js?v=202610261916';
+import { saveRecording, allRecordings } from './store.js?v=202610261916';
+import { TEACHER_CODE, SCRIPT_VERSION } from './config.js?v=202610261916';
 
 const app = document.getElementById('app');
 const params = new URLSearchParams(location.search);
@@ -242,10 +242,11 @@ function examShell() {
   S.done.forEach((id) => app.querySelector(`[data-q="${id}"]`)?.classList.add('done'));
 }
 
-// The numbered sentences, with the targets in bold. What each target tests is
-// only in the teacher's sheet, never on the page.
-export function readingHtml(r) {
-  const li = (s) => `<li>${bold(s.text)}</li>`;
+// The numbered sentences, with the targets in bold. On the Teacher page, once
+// the teacher's script has given them (with the teacher's key), what each
+// target tests goes under each sentence; it is never in the page's code.
+export function readingHtml(r, rules = null) {
+  const li = (s, i) => `<li>${bold(s.text)}${rules && rules[i] ? `<small class="rule">${esc(rules[i])}</small>` : ''}</li>`;
   return `<ol class="reading sentences">${r.sentences.map(li).join('')}</ol>`;
 }
 
@@ -424,7 +425,29 @@ onUpload(({ qid, key, status, error }) => {
 
 // ─── teacher ────────────────────────────────────────────────────────────────
 
-function renderTeacher(message = '') {
+// What each target tests, as the teacher's script gave it: { readingNumber: [rule, …] }.
+// Kept for this tab only.
+const RULES = 'phon2.rules';
+function savedRules() {
+  try {
+    return JSON.parse(sessionStorage.getItem(RULES) || 'null');
+  } catch {
+    return null;
+  }
+}
+function keepRules(rows) {
+  const rules = {};
+  for (const [n, i, , , rule] of rows) (rules[n] = rules[n] || [])[i - 1] = rule;
+  try {
+    sessionStorage.setItem(RULES, JSON.stringify(rules));
+  } catch {
+    /* storage unavailable */
+  }
+  return rules;
+}
+
+function renderTeacher(message = '', rulesMessage = '') {
+  const rules = savedRules();
   const url = scriptUrl();
   const base = `${location.origin}${location.pathname}`;
   const link = (extra = '') => `${base}?${url ? `s=${encodeURIComponent(url)}&` : ''}${extra}`.replace(/[?&]$/, '');
@@ -452,8 +475,14 @@ function renderTeacher(message = '') {
     </section>
     <section class="card">
       <h2>4 · The readings</h2>
-      <p class="muted small">What each target tests is only in your sheet (the <b>Readings</b> tab), not on this page.</p>
-      ${READINGS.map((r) => `<h3>Reading ${r.n} · ${esc(r.title)}</h3>${readingHtml(r)}`).join('')}
+      ${rules ? `<p class="muted small">Under each sentence, what each target tests. Students never see it.</p>` : `<form class="rules-form" data-rules>
+        <p>To see what each target tests, type your teacher key (it is in your Apps Script, part 2, <code>TEACHER_KEY</code>).
+          It is not on this page, so students can’t find it.</p>
+        <div class="row"><input name="tkey" type="password" autocomplete="off" placeholder="Teacher key" spellcheck="false">
+          <button class="btn" type="submit">Show what each target tests</button></div>
+        <p class="status" data-rules-status aria-live="polite">${esc(rulesMessage)}</p>
+      </form>`}
+      ${READINGS.map((r) => `<h3>Reading ${r.n} · ${esc(r.title)}</h3>${readingHtml(r, rules && rules[r.n])}`).join('')}
     </section>
     <section class="card">
       <h2>5 · Try it</h2>
@@ -608,6 +637,18 @@ document.addEventListener('submit', (e) => {
     setUnlocked(true);
     start();
   }
+  if (form.matches('[data-rules]')) {
+    const key = String(new FormData(form).get('tkey') || '').trim();
+    const status = form.querySelector('[data-rules-status]');
+    if (!key) return;
+    status.textContent = 'Asking your script…';
+    fetchRules(key)
+      .then((rows) => {
+        keepRules(rows);
+        renderTeacher();
+      })
+      .catch((err) => renderTeacher('', `Couldn’t get them: ${err.message}`));
+  }
   if (form.matches('[data-teacher]')) {
     const url = String(new FormData(form).get('url') || '').trim();
     if (url && !isScriptUrl(url)) return renderTeacher('That is not an Apps Script web app URL (it ends in /exec).');
@@ -629,6 +670,11 @@ document.addEventListener('click', async (e) => {
   } else if (t.matches('[data-pv-clock]')) previewClock(t);
   else if (t.matches('[data-lock]')) {
     setUnlocked(false);
+    try {
+      sessionStorage.removeItem(RULES);
+    } catch {
+      /* storage unavailable */
+    }
     location.hash = '';
   } else if (t.matches('[data-mic]')) allowMic(t);
   else if (t.matches('[data-test-rec]')) testRecording(t);
