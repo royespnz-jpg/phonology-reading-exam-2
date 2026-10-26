@@ -1,11 +1,13 @@
 // The teacher's Google Apps Script web app (google-apps-script/Code.gs), the
 // URL that ends in /exec. A link with ?s=<url> (from the Teacher page) also
 // sets it for the students who open it.
-export const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxt4iw9RLVv1Iyf6fyF11Z3kGcJKq0ICpvAueVirH9iGD3GuoF0Czuu4YsXbAuepzc7/exec';
+export const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxz8tRvPrBXPef6rvtQlotfc6WTO2sCIdTWQnUlCj4sb4cEEA1aivTRz4j1U3NIoHTd/exec';
 
 // A browser that saved one of these (from the Teacher page or a ?s= link)
 // uses SCRIPT_URL instead.
 export const RETIRED_URLS = [
+  // This exam's first deployment (version 1), replaced by the one above.
+  'https://script.google.com/macros/s/AKfycbxt4iw9RLVv1Iyf6fyF11Z3kGcJKq0ICpvAueVirH9iGD3GuoF0Czuu4YsXbAuepzc7/exec',
   // The first phonology reading exam's scripts: never this exam's sheet.
   'https://script.google.com/macros/s/AKfycbxQb1WdP-7SB3pQZWjmzTUqgYUdApXODRBxPPlrylRmkH0HFCpelEaLnGb1hXC_73o/exec',
   'https://script.google.com/macros/s/AKfycbyttqRw62yK_FaNUo16KjWi6fr3iHaJRzVYo4vBQ_I3BYmWjLJ4h5h2TbgXQ-yZWThy/exec',
