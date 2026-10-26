@@ -1,9 +1,9 @@
-import { READINGS, RESPONSES, INTRO, buildTimeline, timedSeconds, directions, PREP, RESPONSE, WORTH, POINTS_PER_SENTENCE, TOTAL_POINTS } from './format.js?v=202610261910';
-import { clockHtml, runClock, idleClock, fmt } from './clock.js?v=202610261910';
-import { unlockAudio, beep, speak, stopSpeaking, openMicrophone, closeMicrophone, levelMeter, startRecording } from './audio.js?v=202610261910';
-import { scriptUrl, saveScriptUrl, isScriptUrl, ping, report, enqueue, onUpload, pendingUploads, resumeUploads } from './api.js?v=202610261910';
-import { saveRecording, allRecordings } from './store.js?v=202610261910';
-import { TEACHER_CODE, SCRIPT_VERSION } from './config.js?v=202610261910';
+import { READINGS, RESPONSES, INTRO, buildTimeline, timedSeconds, directions, PREP, RESPONSE, WORTH, POINTS_PER_SENTENCE, TOTAL_POINTS } from './format.js?v=202610261911';
+import { clockHtml, runClock, idleClock, fmt } from './clock.js?v=202610261911';
+import { unlockAudio, beep, speak, stopSpeaking, openMicrophone, closeMicrophone, levelMeter, startRecording } from './audio.js?v=202610261911';
+import { scriptUrl, saveScriptUrl, isScriptUrl, ping, report, enqueue, onUpload, pendingUploads, resumeUploads } from './api.js?v=202610261911';
+import { saveRecording, allRecordings } from './store.js?v=202610261911';
+import { TEACHER_CODE, SCRIPT_VERSION } from './config.js?v=202610261911';
 
 const app = document.getElementById('app');
 const params = new URLSearchParams(location.search);
@@ -55,7 +55,7 @@ function renderStart(error = '') {
   const saved = S || {};
   app.innerHTML = `<main class="screen start">
     <section class="start-hero">
-      <p class="eyebrow">Phonology Reading Exam II${DEMO ? ' · <b>demo</b>' : ''}</p>
+      <p class="eyebrow">Phonology Reading Exam${DEMO ? ' · <b>demo</b>' : ''}</p>
       <h1>Read when the clock says so.</h1>
       <p class="lede">Four readings of ten sentences each. A clock counts down ${PREP} seconds to prepare; when it reaches zero
         you hear a beep, your microphone turns on, and it records for ${RESPONSE} seconds while you read aloud.
@@ -223,7 +223,7 @@ async function keepAwake() {
 function examShell() {
   app.innerHTML = `<div class="stage">
     <header class="stage-top">
-      <div class="brand"><span class="dot"></span>Phonology Reading Exam II</div>
+      <div class="brand"><span class="dot"></span>Phonology Reading Exam</div>
       <div class="progress">
         <span class="progress-label" data-progress-label>Reading 1 of ${RESPONSES.length}</span>
         <span class="progress-bars" aria-hidden="true">${RESPONSES.map((r) => `<i data-q="${r.id}"></i>`).join('')}</span>
@@ -535,7 +535,7 @@ function renderPreview() {
   ];
   app.innerHTML = `<div class="stage preview">
     <header class="stage-top">
-      <div class="brand"><span class="dot"></span>Phonology Reading Exam II</div>
+      <div class="brand"><span class="dot"></span>Phonology Reading Exam</div>
       <div class="progress">
         <span class="progress-label">${r ? `Reading ${r.n} of ${READINGS.length}` : 'Introduction'}</span>
         <span class="progress-bars" aria-hidden="true">${RESPONSES.map((x) => `<i class="${x.id === step.reading ? 'now' : ''}"></i>`).join('')}</span>
