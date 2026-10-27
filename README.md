@@ -7,7 +7,8 @@ tiempo y pasa a la lectura siguiente. Cada grabación va a tu Google Drive y a u
 ## El examen
 
 Cuatro lecturas, cada una con **40 segundos para preparar** y **50 segundos para leer**. Vale el **5 %** de la nota:
-**2 puntos por oración**, **80 puntos** en total (40 oraciones). La introducción del examen se lo dice a los estudiantes.
+**1 punto por cada palabra en negrita**, **80 puntos** en total (20 por lectura). La introducción del examen se lo dice a
+los estudiantes.
 
 
 | Lectura | Qué evalúa |
@@ -15,10 +16,10 @@ Cuatro lecturas, cada una con **40 segundos para preparar** y **50 segundos para
 | 1 · Vowels | **Minimal pairs** de vocales, entre los contrastes más difíciles para hispanohablantes |
 | 2 · Consonants | **Minimal pairs** de consonantes, entre los contrastes más difíciles para hispanohablantes |
 | 3 · Connected speech | Solo linking: los 5 tipos, 4 veces cada uno (cada oración combina dos tipos distintos) |
-| 4 · Word stress | 20 palabras que se escriben igual como sustantivo, verbo o adjetivo pero cambian el acento. El estudiante solo ve la palabra en negrita: la oración le dice cuál es |
+| 4 · Word stress | 11 oraciones: 9 con dos targets y 2 con uno (20 puntos). Mezcla los tipos de acento de *Accurate English* cap. 6 y 7 que eligió el docente: sufijos, phrasal verbs, compuestos, pares sustantivo–verbo, *-ate*, *-ically*, familias de palabras |
 
-- **10 oraciones por lectura**, numeradas y sueltas. Cada oración tiene exactamente **dos targets en negrita**; en la
-  planilla aparecen en MAYÚSCULAS.
+- **Oraciones numeradas y sueltas**, con los targets **en negrita** (en la planilla, en MAYÚSCULAS): 10 oraciones de dos
+  targets en las tres primeras lecturas, y 11 en *Word stress* (nueve de dos y dos de uno).
 - Un **minimal pair** son dos palabras que se diferencian en un solo sonido. En *Vowels* y *Consonants* cada oración
   tiene las dos palabras del par: seis contrastes elegidos por el docente en cada hoja, y el más difícil de cada una
   va en cinco oraciones. Donde el inglés no tiene un par exacto para un contraste, se usa el par más cercano.

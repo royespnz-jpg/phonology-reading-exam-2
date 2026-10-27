@@ -78,30 +78,35 @@ export const READINGS = [
     n: 4,
     kind: 'stress',
     title: 'Word stress',
-    focus: 'the stressed syllable of each word',
+    focus: 'the stress in each word or phrase',
     sentences: [
-      { text: 'The singer will **record** her new songs in the **desert**.' },
-      { text: 'The workers **protest** because the new **contract** is unfair.' },
-      { text: 'The scientist found a **minute** **object** in the water.' },
-      { text: 'We **refuse** to accept the **permit** for the factory.' },
-      { text: 'Our farmers **produce** coffee, our main **export**.' },
-      { text: 'She was **upset** because the **present** was broken.' },
-      { text: 'The students will **perfect** their **project** before Friday.' },
-      { text: 'My grandfather is **content** with his **progress** this month.' },
-      { text: 'The police **suspect** that the **rebel** is hiding in town.' },
-      { text: 'They will **refund** you if your ticket is **invalid**.' },
+      { text: 'The **refugees** will **protest** at the city hall.' },
+      { text: 'The **conflict** caused a lot of **excitement** in town.' },
+      { text: 'If you **look for** a job, never **give up**.' },
+      { text: 'She can’t **keep up with** the new **engineers**.' },
+      { text: 'Your answer is **basically** **accurate**, but too short.' },
+      { text: 'In a **democracy**, people **participate** in decisions.' },
+      { text: 'Grandma is **forgetful**, but this song sounds **familiar**.' },
+      { text: 'The town **depends on** **electricity** from the river.' },
+      { text: 'Please **throw away** that old **toothbrush**.' },
+      { text: 'We **ran out of** milk again this morning.' },
+      { text: 'Please write your **credit card number** here.' },
     ],
   },
 ];
 
-// What the test is worth: a share of the grade, and points for each sentence.
+// "**word**" → the plain text (what the teacher's sheet keeps) and the targets.
+export const plain = (s) => s.replace(/\*\*/g, '');
+export const targets = (s) => [...s.matchAll(/\*\*(.+?)\*\*/g)].map((m) => m[1]);
+
+// What the test is worth: a share of the grade, and a point for each target.
 export const WORTH = 5;
-export const POINTS_PER_SENTENCE = 2;
-export const TOTAL_POINTS = READINGS.reduce((n, r) => n + r.sentences.length, 0) * POINTS_PER_SENTENCE;
+export const POINTS_PER_TARGET = 1;
+export const TOTAL_POINTS = READINGS.reduce((n, r) => n + r.sentences.reduce((m, s) => m + targets(s.text).length, 0), 0) * POINTS_PER_TARGET;
 
 export const INTRO =
   'This is the second part of the phonology test. It has four readings: vowels, consonants, connected speech, and word stress. ' +
-  `This test is worth ${WORTH}% of your grade. Each sentence is worth ${POINTS_PER_SENTENCE} points, and the total is ${TOTAL_POINTS} points. ` +
+  `This test is worth ${WORTH}% of your grade. Each word in bold is worth ${POINTS_PER_TARGET} point, and the total is ${TOTAL_POINTS} points. ` +
   'For each reading you will have forty seconds to prepare and fifty seconds to read the sentences aloud. ' +
   'The test runs by itself. Your microphone turns on when it is time to read and turns off when the time is up. You cannot pause or go back.';
 
@@ -112,9 +117,6 @@ export const directions = (r) =>
 // The recorded answers, in order.
 export const RESPONSES = READINGS.map((r) => ({ id: r.id, label: `Reading ${r.n}`, short: String(r.n), title: r.title }));
 
-// "**word**" → the plain text (what the teacher's sheet keeps) and the targets.
-export const plain = (s) => s.replace(/\*\*/g, '');
-export const targets = (s) => [...s.matchAll(/\*\*(.+?)\*\*/g)].map((m) => m[1]);
 export const caps = (s) => s.replace(/\*\*(.+?)\*\*/g, (m, w) => w.toUpperCase());
 export const words = (r) => r.sentences.map((s) => plain(s.text)).join(' ').match(/[A-Za-z’']+/g) || [];
 

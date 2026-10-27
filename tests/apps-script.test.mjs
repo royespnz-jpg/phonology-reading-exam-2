@@ -130,7 +130,7 @@ test('the readings in the script are the ones on the page', () => {
   // The public script never says what a target tests: that is only in the teacher's private copy.
   assert.ok(readingRows().every((row) => row[4] === ''));
   assert.doesNotMatch(code, /: (verb|noun|adjective): |re-CORD|REcord|\/ɪ\/|\/dʒ\/ \+/);
-  assert.equal(readingRows().length, 40);
+  assert.equal(readingRows().length, 41);
 });
 
 test('an exam: start, four readings in the student’s folder, finish', () => {
@@ -176,7 +176,7 @@ test('what each target tests: only the teacher’s copy gives it, and only with 
   assert.match(env.post({ type: 'readings', key: 'wrong' }).error, /clave del docente/);
   const res = env.post({ type: 'readings', key: ` ${key} ` });
   assert.equal(res.ok, true);
-  assert.equal(res.rows.length, 40);
+  assert.equal(res.rows.length, 41);
   assert.ok(res.rows.every((row) => row[4] !== ''), 'every sentence says what it tests');
 });
 

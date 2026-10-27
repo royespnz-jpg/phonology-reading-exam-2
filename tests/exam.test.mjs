@@ -31,9 +31,9 @@ test('four readings, each with 40 seconds to prepare and 50 to read', () => {
   assert.equal(steps[0].type, 'intro');
   assert.match(steps[0].say, /^This is the second part of the phonology test\. It has four readings/);
   assert.match(steps[0].say, /forty seconds to prepare and fifty seconds to read/);
-  // Worth 5% of the grade: 2 points for each of the 40 sentences, 80 in all.
+  // Worth 5% of the grade: a point for each of the 80 words in bold.
   assert.equal(TOTAL_POINTS, 80);
-  assert.match(steps[0].say, /worth 5% of your grade\. Each sentence is worth 2 points, and the total is 80 points\./);
+  assert.match(steps[0].say, /worth 5% of your grade\. Each word in bold is worth 1 point, and the total is 80 points\./);
   assert.deepEqual(READINGS.map((r) => r.title), ['Vowels', 'Consonants', 'Connected speech', 'Word stress']);
   assert.deepEqual(READINGS.map((r) => r.kind), ['vowels', 'consonants', 'connected', 'stress']);
   assert.deepEqual(READINGS.map((r) => r.id), READINGS.map((r, i) => `r${i + 1}`));
@@ -59,14 +59,18 @@ test('the quick demo shortens every clock but keeps at least 3 seconds', () => {
   assert.deepEqual(buildTimeline({ scale: 0.01 }).filter((s) => s.seconds).map((s) => s.seconds), Array(8).fill(3));
 });
 
-test('10 separate sentences per reading, each with exactly two targets in bold', () => {
+test('separate sentences with targets in bold: 20 targets in every reading', () => {
+  // Vowels, consonants and connected speech: 10 sentences with two targets.
+  // Word stress: 11 sentences, nine with two targets and two with one.
+  const shape = (r) => r.sentences.map((s) => targets(s.text).length);
+  for (const r of READINGS.slice(0, 3)) assert.deepEqual(shape(r), Array(10).fill(2), r.id);
+  assert.deepEqual([...shape(byId('r4'))].sort(), [1, 1, ...Array(9).fill(2)], 'r4');
   for (const r of READINGS) {
-    assert.equal(r.sentences.length, 10, `${r.id}: ${r.sentences.length} sentences`);
+    assert.equal(shape(r).reduce((a, b) => a + b, 0), 20, r.id);
     for (const s of r.sentences) {
       assert.equal(s.text.split('**').length % 2, 1, `unbalanced ** in: ${s.text}`);
       assert.match(plain(s.text), /^[A-Z].*[.?!]$/, `one whole sentence: ${s.text}`);
       assert.doesNotMatch(plain(s.text), /[.?!]\s/, `one sentence per line: ${s.text}`);
-      assert.equal(targets(s.text).length, 2, `two targets: ${s.text}`);
     }
   }
 });

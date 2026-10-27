@@ -81,7 +81,7 @@ const RUBRIC_KINDS = {
     '7 to 12 adjustments made; the reading is choppy.',
   ],
   stress: [
-    'At least 18 of the 20 words are stressed right for what they are in the sentence.',
+    'At least 18 of the 20 targets are stressed right.',
     '13 to 17 words stressed right.',
     '7 to 12 words stressed right.',
   ],
