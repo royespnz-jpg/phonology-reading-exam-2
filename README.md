@@ -15,7 +15,7 @@ los estudiantes.
 | --- | --- |
 | 1 · Vowels | **Minimal pairs** de vocales, entre los contrastes más difíciles para hispanohablantes |
 | 2 · Consonants | **Minimal pairs** de consonantes, entre los contrastes más difíciles para hispanohablantes |
-| 3 · Connected speech | Solo linking: los 5 tipos, 4 veces cada uno (cada oración combina dos tipos distintos) |
+| 3 · Connected speech | 20 targets de linking (qué tipo es cada uno, solo en la planilla del docente) |
 | 4 · Word stress | 11 oraciones: 9 con dos targets y 2 con uno (20 puntos). Mezcla los tipos de acento de *Accurate English* cap. 6 y 7 que eligió el docente: sufijos, phrasal verbs, compuestos, pares sustantivo–verbo, *-ate*, *-ically*, familias de palabras |
 
 - **Oraciones numeradas y sueltas**, con los targets **en negrita** (en la planilla, en MAYÚSCULAS): 10 oraciones de dos
