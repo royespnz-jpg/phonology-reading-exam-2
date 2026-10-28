@@ -85,7 +85,7 @@ export const READINGS = [
       { text: 'If you **look for** a job, never **give up**.' },
       { text: 'She can’t **keep up with** the new **engineers**.' },
       { text: 'Your **estimate** is **basically** right, but a little high.' },
-      { text: 'Our body gets **energy** from adenosine **triphosphate**.' },
+      { text: 'Junk food can **exacerbate** a lack of **energy**.' },
       { text: 'Grandma is **forgetful**, but this song sounds **familiar**.' },
       { text: 'The town **depends on** **electricity** from the river.' },
       { text: 'Please **throw away** that old **toothbrush**.' },

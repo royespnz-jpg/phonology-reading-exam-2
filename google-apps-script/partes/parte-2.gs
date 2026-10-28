@@ -43,7 +43,7 @@ const READINGS_ROWS_1 = [
   [4,3,"If you LOOK FOR a job, never GIVE UP.","look for, give up",""],
   [4,4,"She can’t KEEP UP WITH the new ENGINEERS.","keep up with, engineers",""],
   [4,5,"Your ESTIMATE is BASICALLY right, but a little high.","estimate, basically",""],
-  [4,6,"Our body gets ENERGY from adenosine TRIPHOSPHATE.","energy, triphosphate",""],
+  [4,6,"Junk food can EXACERBATE a lack of ENERGY.","exacerbate, energy",""],
   [4,7,"Grandma is FORGETFUL, but this song sounds FAMILIAR.","forgetful, familiar",""],
   [4,8,"The town DEPENDS ON ELECTRICITY from the river.","depends on, electricity",""],
   [4,9,"Please THROW AWAY that old TOOTHBRUSH.","throw away, toothbrush",""],
