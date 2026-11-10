@@ -2,7 +2,7 @@
   "name": "phonology-reading-exam-2",
   "version": "1.0.0",
   "private": true,
-  "description": "A second timed reading-aloud exam for phonology (minimal pairs of vowels and consonants, connected speech, word stress), 40 s to prepare and 50 s to read, with automatic recording and the teacher's Google Apps Script.",
+  "description": "A second timed reading-aloud exam for phonology (minimal pairs of vowels and consonants, connected speech, word stress), 1 minute to prepare and 1 minute to read, with automatic recording and the teacher's Google Apps Script.",
   "type": "module",
   "scripts": {
     "start": "node scripts/serve.mjs",

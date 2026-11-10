@@ -6,7 +6,7 @@ tiempo y pasa a la lectura siguiente. Cada grabación va a tu Google Drive y a u
 
 ## El examen
 
-Cuatro lecturas, cada una con **40 segundos para preparar** y **50 segundos para leer**. Vale el **5 %** de la nota:
+Cuatro lecturas, cada una con **1 minuto para preparar** y **1 minuto para leer**. Vale el **5 %** de la nota:
 **1 punto por cada palabra en negrita**, **80 puntos** en total (20 por lectura). La introducción del examen se lo dice a
 los estudiantes.
 
@@ -24,7 +24,7 @@ los estudiantes.
   tiene las dos palabras del par: seis contrastes elegidos por el docente en cada hoja, y el más difícil de cada una
   va en cinco oraciones. Donde el inglés no tiene un par exacto para un contraste, se usa el par más cercano.
 - **Nada se repite**: ninguna palabra target aparece dos veces, y ninguna viene del primer examen.
-- **Cabe en los 50 segundos**: cada lectura tiene unas 120–130 sílabas, unos 40 segundos a ritmo parejo de estudiante,
+- **Cabe en el minuto**: cada lectura tiene unas 120–130 sílabas, unos 40 segundos a ritmo parejo de estudiante,
   así queda tiempo de sobra.
 - **Las oraciones aparecen** recién cuando empieza el tiempo de preparación (“Begin preparing now”).
 - **Qué evalúa cada target no está en la página ni en este repositorio** (que es público): solo en la copia del script
@@ -33,7 +33,7 @@ los estudiantes.
   página le pide al script qué evalúa cada target, que aparece debajo de cada oración. Sin esa clave el script no lo
   da, y la clave tampoco está en este repositorio. *Lock and leave* lo vuelve a ocultar.
 
-Las consignas se oyen (voz del navegador) y se leen en pantalla. Son unos 8 minutos (6 de relojes).
+Las consignas se oyen (voz del navegador) y se leen en pantalla. Son unos 10 minutos (8 de relojes).
 
 - **El micrófono** se pide una vez, en la prueba de micrófono antes de empezar. Después graba solo en cada lectura.
 - **Nada se pierde**: cada grabación se guarda en el navegador y se envía enseguida; si se corta internet, se reintenta.
@@ -83,7 +83,7 @@ evalúa cada target va en el archivo privado `key/key.mjs` (fuera del repositori
 ```bash
 npm run gs        # copia las oraciones a Code.gs (y a la copia privada si está key/) y arma las partes
 npm run version   # versión nueva de los archivos, así una recarga normal trae los cambios
-npm test          # negritas, nada repetido, que cada lectura entre en 50 s (y la clave, si está key/)
+npm test          # negritas, nada repetido, que cada lectura entre en 1 minuto (y la clave, si está key/)
 ```
 
 y en Apps Script pegá el código nuevo, corré `setup` otra vez y hacé **Implementar → Administrar implementaciones → ✏ →

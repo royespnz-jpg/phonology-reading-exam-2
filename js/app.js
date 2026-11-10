@@ -1,11 +1,13 @@
-import { READINGS, RESPONSES, INTRO, buildTimeline, timedSeconds, directions, PREP, RESPONSE, WORTH, POINTS_PER_TARGET, TOTAL_POINTS } from './format.js?v=202610281837';
-import { clockHtml, runClock, idleClock, fmt } from './clock.js?v=202610281837';
-import { unlockAudio, beep, speak, stopSpeaking, openMicrophone, closeMicrophone, levelMeter, startRecording } from './audio.js?v=202610281837';
-import { scriptUrl, saveScriptUrl, isScriptUrl, ping, fetchRules, report, enqueue, onUpload, pendingUploads, resumeUploads } from './api.js?v=202610281837';
-import { saveRecording, allRecordings } from './store.js?v=202610281837';
-import { TEACHER_CODE, SCRIPT_VERSION } from './config.js?v=202610281837';
+import { READINGS, RESPONSES, INTRO, buildTimeline, timedSeconds, directions, duration, PREP, RESPONSE, WORTH, POINTS_PER_TARGET, TOTAL_POINTS } from './format.js?v=202611100055';
+import { clockHtml, runClock, idleClock, fmt } from './clock.js?v=202611100055';
+import { unlockAudio, beep, speak, stopSpeaking, openMicrophone, closeMicrophone, levelMeter, startRecording } from './audio.js?v=202611100055';
+import { scriptUrl, saveScriptUrl, isScriptUrl, ping, fetchRules, report, enqueue, onUpload, pendingUploads, resumeUploads } from './api.js?v=202611100055';
+import { saveRecording, allRecordings } from './store.js?v=202611100055';
+import { TEACHER_CODE, SCRIPT_VERSION } from './config.js?v=202611100055';
 
 const app = document.getElementById('app');
+// A length of time, short: 60 → "1 min", 45 → "45 s".
+const short = (s) => (s % 60 ? `${s} s` : `${s / 60} min`);
 const params = new URLSearchParams(location.search);
 // ?demo=1: the teacher's try-out, with the real clocks; the sheet marks it "demo".
 const DEMO = params.has('demo');
@@ -57,10 +59,10 @@ function renderStart(error = '') {
     <section class="start-hero">
       <p class="eyebrow">Phonology Reading Exam${DEMO ? ' · <b>demo</b>' : ''}</p>
       <h1>Read when the clock says so.</h1>
-      <p class="lede">Four readings of ten sentences each. A clock counts down ${PREP} seconds to prepare; when it reaches zero
-        you hear a beep, your microphone turns on, and it records for ${RESPONSE} seconds while you read aloud.
+      <p class="lede">Four readings of ten sentences each. A clock counts down ${duration(PREP)} to prepare; when it reaches zero
+        you hear a beep, your microphone turns on, and it records for ${duration(RESPONSE)} while you read aloud.
         Pay attention to the words in <b>bold</b>.</p>
-      <p class="po-time">Each reading: ${PREP} s to prepare · ${RESPONSE} s to read. Worth ${WORTH}% · ${POINTS_PER_TARGET} point per word in bold · ${TOTAL_POINTS} points in total.</p>
+      <p class="po-time">Each reading: ${short(PREP)} to prepare · ${short(RESPONSE)} to read. Worth ${WORTH}% · ${POINTS_PER_TARGET} point per word in bold · ${TOTAL_POINTS} points in total.</p>
       <ol class="parts-overview">
         ${READINGS.map((r) => `<li><span class="po-label">Reading ${r.n}</span><span class="po-title">${esc(r.title)}</span></li>`).join('')}
       </ol>
@@ -258,7 +260,7 @@ function taskHtml(step) {
   const r = READINGS.find((x) => x.id === step.reading);
   const head = `<p class="task-label">Reading ${r.n} of ${READINGS.length}</p><h2>${esc(r.title)}</h2>`;
   // The sentences appear only when the preparation clock starts: during the
-  // directions there is nothing to read, so everyone gets the same 40 seconds.
+  // directions there is nothing to read, so everyone gets the same preparation time.
   if (step.type === 'part') return `${head}<p class="directions"><b>Directions:</b> ${esc(directions(r))}</p>`;
   return head + readingHtml(r);
 }

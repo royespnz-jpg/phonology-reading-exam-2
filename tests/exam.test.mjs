@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { READINGS, RESPONSES, PREP, RESPONSE, TOTAL_POINTS, buildTimeline, timedSeconds, plain, targets, caps, words } from '../js/format.js';
+import { READINGS, RESPONSES, PREP, RESPONSE, duration, TOTAL_POINTS, buildTimeline, timedSeconds, plain, targets, caps, words } from '../js/format.js';
 import { fmt } from '../js/clock.js';
 import { syllables, syllablesOf } from './syllables.mjs';
 
@@ -26,11 +26,11 @@ const FIRST_EXAM = [
   'increase', 'pick up', 'beautiful', 'introduce', 'ourselves',
 ];
 
-test('four readings, each with 40 seconds to prepare and 50 to read', () => {
+test('four readings, each with one minute to prepare and one minute to read', () => {
   const steps = buildTimeline();
   assert.equal(steps[0].type, 'intro');
   assert.match(steps[0].say, /^This is the second part of the phonology test\. It has four readings/);
-  assert.match(steps[0].say, /forty seconds to prepare and fifty seconds to read/);
+  assert.match(steps[0].say, /For each reading you will have one minute to prepare and one minute to read the sentences aloud\./);
   // Worth 5% of the grade: a point for each of the 80 words in bold.
   assert.equal(TOTAL_POINTS, 80);
   assert.match(steps[0].say, /worth 5% of your grade\. Each word in bold is worth 1 point, and the total is 80 points\./);
@@ -39,15 +39,15 @@ test('four readings, each with 40 seconds to prepare and 50 to read', () => {
   assert.deepEqual(READINGS.map((r) => r.id), READINGS.map((r, i) => `r${i + 1}`));
   assert.deepEqual(
     steps.filter((s) => s.seconds).map((s) => `${s.type}:${s.reading}:${s.seconds}`),
-    READINGS.flatMap((r) => [`prep:${r.id}:40`, `response:${r.id}:50`]),
+    READINGS.flatMap((r) => [`prep:${r.id}:60`, `response:${r.id}:60`]),
   );
-  assert.equal(PREP, 40);
-  assert.equal(RESPONSE, 50);
-  assert.equal(timedSeconds(steps), 360);
+  assert.equal(PREP, 60);
+  assert.equal(RESPONSE, 60);
+  assert.equal(timedSeconds(steps), 480);
   assert.deepEqual(steps.filter((s) => s.type === 'response').map((s) => s.id), RESPONSES.map((r) => r.id));
   // Each reading: its directions, then "Begin preparing now", then "Begin reading aloud now".
   const r3 = steps.findIndex((s) => s.type === 'part' && s.reading === 'r3');
-  assert.match(steps[r3].say, /^Reading 3\. Connected speech\. .*40 seconds to prepare.*50 seconds to read/);
+  assert.match(steps[r3].say, /^Reading 3\. Connected speech\. .*You will have one minute to prepare\. Then you will have one minute to read the sentences aloud\.$/);
   assert.equal(steps[r3 + 1].say, 'Begin preparing now.');
   assert.equal(steps[r3 + 2].say, 'Begin reading aloud now.');
   // The sheet keeps the sentences, numbered, with the targets in capitals.
@@ -55,7 +55,7 @@ test('four readings, each with 40 seconds to prepare and 50 to read', () => {
 });
 
 test('the quick demo shortens every clock but keeps at least 3 seconds', () => {
-  assert.deepEqual(buildTimeline({ scale: 0.1 }).filter((s) => s.seconds).map((s) => s.seconds), [4, 5, 4, 5, 4, 5, 4, 5]);
+  assert.deepEqual(buildTimeline({ scale: 0.1 }).filter((s) => s.seconds).map((s) => s.seconds), Array(8).fill(6));
   assert.deepEqual(buildTimeline({ scale: 0.01 }).filter((s) => s.seconds).map((s) => s.seconds), Array(8).fill(3));
 });
 
@@ -109,7 +109,7 @@ test('no target word is used twice, and none comes from the first exam', () => {
   assert.deepEqual(all.filter((t) => FIRST_EXAM.includes(t)), []);
 });
 
-test('each reading fits its 50 seconds, with time to spare', () => {
+test('each reading fits its minute, with time to spare', () => {
   // A learner reading steadily says about 3.5 syllables a second and pauses
   // briefly between sentences: every reading should take about 40 seconds.
   for (const r of READINGS) {
@@ -121,11 +121,12 @@ test('each reading fits its 50 seconds, with time to spare', () => {
   }
 });
 
-test('helpers: plain text, targets, capitals, syllables', () => {
+test('helpers: plain text, targets, capitals, syllables, durations', () => {
   const s = { text: '**Did you** **stay up** last night?' };
   assert.equal(plain(s.text), 'Did you stay up last night?');
   assert.deepEqual(targets(s.text), ['Did you', 'stay up']);
   assert.equal(caps(s.text), 'DID YOU STAY UP last night?');
+  assert.deepEqual([60, 45, 120].map(duration), ['one minute', '45 seconds', '2 minutes']);
   assert.deepEqual(['home', 'looked', 'decided', 'washes', 'hopes', 'usually', 'technique', 'little'].map(syllables), [1, 1, 3, 2, 1, 4, 2, 2]);
 });
 

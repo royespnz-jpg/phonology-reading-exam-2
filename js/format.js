@@ -1,5 +1,5 @@
 // The exam: four readings aloud — vowels, consonants, connected speech and
-// word stress — each with 40 seconds to prepare and 50 seconds to read. Each
+// word stress — each with one minute to prepare and one minute to read. Each
 // reading has 10 separate sentences, and each sentence has exactly two
 // targets in **bold**.
 //
@@ -10,10 +10,13 @@
 // No target word is used twice in the exam, and none comes from the first
 // phonology reading exam. Each reading has about 120–130 syllables: about
 // 40 seconds at a steady learner's pace (≈ 3.5 syllables a second with a
-// short pause between sentences), so it fits the 50 seconds.
+// short pause between sentences), so it fits the minute with time to spare.
 
-export const PREP = 40;
-export const RESPONSE = 50;
+export const PREP = 60;
+export const RESPONSE = 60;
+
+// How a length of time is said: 60 → "one minute", 45 → "45 seconds".
+export const duration = (s) => (s % 60 ? `${s} seconds` : s === 60 ? 'one minute' : `${s / 60} minutes`);
 
 export const READINGS = [
   {
@@ -107,12 +110,12 @@ export const TOTAL_POINTS = READINGS.reduce((n, r) => n + r.sentences.reduce((m,
 export const INTRO =
   'This is the second part of the phonology test. It has four readings: vowels, consonants, connected speech, and word stress. ' +
   `This test is worth ${WORTH}% of your grade. Each word in bold is worth ${POINTS_PER_TARGET} point, and the total is ${TOTAL_POINTS} points. ` +
-  'For each reading you will have forty seconds to prepare and fifty seconds to read the sentences aloud. ' +
+  `For each reading you will have ${duration(PREP)} to prepare and ${duration(RESPONSE)} to read the sentences aloud. ` +
   'The test runs by itself. Your microphone turns on when it is time to read and turns off when the time is up. You cannot pause or go back.';
 
 export const directions = (r) =>
   `In this part of the test, you will read aloud the sentences on the screen. Pay attention to the words in bold: ${r.focus}. ` +
-  `You will have ${PREP} seconds to prepare. Then you will have ${RESPONSE} seconds to read the sentences aloud.`;
+  `You will have ${duration(PREP)} to prepare. Then you will have ${duration(RESPONSE)} to read the sentences aloud.`;
 
 // The recorded answers, in order.
 export const RESPONSES = READINGS.map((r) => ({ id: r.id, label: `Reading ${r.n}`, short: String(r.n), title: r.title }));
